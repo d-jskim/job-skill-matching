@@ -1,0 +1,6 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+*.sql
+Wanted IT 엔지니어 JD 요약.xlsx

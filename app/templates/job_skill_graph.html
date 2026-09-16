@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Job Skill Graph</title>
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<link rel="stylesheet" href="/static/css/job_skill_graph.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>교육과정 기반 채용공고 Skill Graph</h1>
+    <p>교육과정을 선택하고 Skill을 클릭해 관련 채용공고를 확인하세요.</p>
+  </div>
+  <div class="source-note">Wanted · 최근 <span id="daysLabel">365</span>일 기준</div>
+</header>
+
+<section class="controls">
+  <div class="curriculum-selector" role="radiogroup" aria-label="교육과정 선택">
+    <label><input type="radio" name="curriculum" value="CUR003" checked><span>LLM Engineer</span></label>
+    <label><input type="radio" name="curriculum" value="CUR001"><span>AX Engineer</span></label>
+    <label><input type="radio" name="curriculum" value="CUR002"><span>Data Scientist</span></label>
+    <label><input type="radio" name="curriculum" value="CUR004"><span>Physical AI</span></label>
+  </div>
+</section>
+
+<main>
+  <section id="cy" aria-label="Skill graph"></section>
+  <aside id="detail">
+    <div class="empty">
+      Skill을 클릭하면 관련 채용공고가 표시됩니다.<br>
+      채용공고 노드를 클릭하면 상세 정보를 확인할 수 있습니다.
+    </div>
+  </aside>
+</main>
+
+<div id="tooltip" class="tooltip" hidden></div>
+
+<script src="/static/js/api.js"></script>
+<script src="/static/js/job_skill_graph.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
