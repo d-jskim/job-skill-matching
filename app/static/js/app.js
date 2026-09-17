@@ -23,6 +23,7 @@
     });
   });
 
+  // 버튼 순서는 AX → DS → LLM → PA이고, 기본 화면은 세 번째 LLM.
   loadCurriculum("CUR003");
 
   async function loadCurriculum(curriculumCode){
@@ -37,7 +38,7 @@
 
     try{
       const graph=await window.JobSkillApi.getGraph(curriculumCode,DEFAULT_DAYS);
-      window.JobSkillGraph.render(graph.elements);
+      window.JobSkillGraph.render(graph.elements,curriculumCode);
     }catch(error){
       showError(error.message);
     }
@@ -88,13 +89,22 @@
     tooltipElement.hidden=true;
   }
 
+  function normalizeTrack(track){
+    return ["AX","DS","LLM","PA"].includes(track) ? track : "NONE";
+  }
+
   function showJobList(skillLabel,jobs){
     detailElement.innerHTML=`
       <div class="job-list">
         <h2>${escapeHtml(skillLabel)} 관련 채용공고</h2>
 
         ${jobs.map(job=>`
-          <button class="job-card" type="button" data-job-id="${job.job_posting_id}">
+          <button
+            class="job-card"
+            type="button"
+            data-job-id="${job.job_posting_id}"
+            data-track="${normalizeTrack(job.top1_track)}"
+          >
             <div class="company">${escapeHtml(job.company_name)}</div>
             <div class="title">${escapeHtml(job.job_title)}</div>
           </button>
@@ -127,8 +137,10 @@
       job.collected_at ||
       "-";
 
+    const track=normalizeTrack(job.top1_track);
+
     detailElement.innerHTML=`
-      <div class="job-detail">
+      <div class="job-detail" data-track="${track}">
         <h2>채용공고 상세</h2>
 
         <div class="label">회사명</div>

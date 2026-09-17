@@ -5,14 +5,22 @@
   --line:#e7ebf2;
   --text:#172033;
   --muted:#6b7280;
-  --primary:#4263eb;
-  --primary-soft:#edf2ff;
+  --primary:#7c3aed;
+  --primary-soft:#f5f3ff;
   --disabled-bg:#eceff3;
   --disabled-border:#d8dde5;
   --disabled-text:#9aa3b2;
-  --job-bg:#fff4e6;
-  --job-border:#f59f00;
-  --job-text:#7c4a03;
+
+  --ax:#2563eb;
+  --ax-soft:#eff6ff;
+  --ds:#059669;
+  --ds-soft:#ecfdf5;
+  --llm:#7c3aed;
+  --llm-soft:#f5f3ff;
+  --pa:#ea580c;
+  --pa-soft:#fff7ed;
+  --none:#64748b;
+  --none-soft:#f1f5f9;
 }
 body{margin:0;font-family:Inter,Pretendard,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
 .topbar{min-height:78px;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--panel);border-bottom:1px solid var(--line)}
@@ -22,19 +30,40 @@ body{margin:0;font-family:Inter,Pretendard,"Noto Sans KR",sans-serif;background:
 .controls{padding:12px 22px;background:var(--panel);border-bottom:1px solid var(--line)}
 .curriculum-selector{display:flex;gap:8px;flex-wrap:wrap}
 .curriculum-selector input{position:absolute;opacity:0;pointer-events:none}
-.curriculum-selector span{min-height:38px;padding:0 14px;display:inline-flex;align-items:center;border:1px solid #d9dfeb;border-radius:10px;background:#fff;color:#4b5563;font-size:13px;font-weight:700;cursor:pointer}
-.curriculum-selector input:checked + span{background:var(--primary);border-color:var(--primary);color:#fff}
+.curriculum-selector span{min-height:38px;padding:0 14px;display:inline-flex;align-items:center;border:1px solid #d9dfeb;border-radius:10px;background:#fff;color:#4b5563;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+
+/* 반별 고정 색상: AX → DS → LLM → PA */
+.curriculum-selector input[value="CUR001"] + span{border-color:#bfdbfe;color:#1d4ed8;background:var(--ax-soft)}
+.curriculum-selector input[value="CUR002"] + span{border-color:#a7f3d0;color:#047857;background:var(--ds-soft)}
+.curriculum-selector input[value="CUR003"] + span{border-color:#ddd6fe;color:#6d28d9;background:var(--llm-soft)}
+.curriculum-selector input[value="CUR004"] + span{border-color:#fed7aa;color:#c2410c;background:var(--pa-soft)}
+.curriculum-selector input[value="CUR001"]:checked + span{background:var(--ax);border-color:var(--ax);color:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.curriculum-selector input[value="CUR002"]:checked + span{background:var(--ds);border-color:var(--ds);color:#fff;box-shadow:0 0 0 3px rgba(5,150,105,.12)}
+.curriculum-selector input[value="CUR003"]:checked + span{background:var(--llm);border-color:var(--llm);color:#fff;box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.curriculum-selector input[value="CUR004"]:checked + span{background:var(--pa);border-color:var(--pa);color:#fff;box-shadow:0 0 0 3px rgba(234,88,12,.12)}
+
 main{display:grid;grid-template-columns:minmax(0,1fr) 360px;height:calc(100vh - 133px)}
 #cy{width:100%;height:100%}
 aside{padding:22px;overflow:auto;background:var(--panel);border-left:1px solid var(--line)}
 .empty{height:100%;min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);line-height:1.7}
 .job-list h2,.job-detail h2{margin:0 0 14px;font-size:17px}
-.job-card{width:100%;margin-bottom:9px;padding:12px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.job-card{width:100%;margin-bottom:9px;padding:12px;text-align:left;background:#fff;border:1px solid var(--line);border-left-width:4px;border-radius:12px;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.job-card:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(23,32,51,.08)}
+.job-card[data-track="AX"]{border-left-color:var(--ax);background:linear-gradient(90deg,var(--ax-soft),#fff 30%)}
+.job-card[data-track="DS"]{border-left-color:var(--ds);background:linear-gradient(90deg,var(--ds-soft),#fff 30%)}
+.job-card[data-track="LLM"]{border-left-color:var(--llm);background:linear-gradient(90deg,var(--llm-soft),#fff 30%)}
+.job-card[data-track="PA"]{border-left-color:var(--pa);background:linear-gradient(90deg,var(--pa-soft),#fff 30%)}
+.job-card[data-track="NONE"]{border-left-color:var(--none);background:linear-gradient(90deg,var(--none-soft),#fff 30%)}
 .job-card .company{margin-bottom:4px;font-size:12px;color:var(--muted)}
 .job-card .title{font-size:14px;font-weight:800;line-height:1.45}
 .label{margin:15px 0 5px;font-size:12px;color:var(--muted)}
 .value{font-size:14px;line-height:1.55}
-.tag{display:inline-block;margin:2px;padding:5px 8px;border-radius:999px;background:var(--primary-soft);color:#364fc7;font-size:12px}
+.tag{display:inline-block;margin:2px;padding:5px 8px;border-radius:999px;background:var(--primary-soft);color:#6d28d9;font-size:12px}
+.job-detail[data-track="AX"] .tag{background:var(--ax-soft);color:#1d4ed8}
+.job-detail[data-track="DS"] .tag{background:var(--ds-soft);color:#047857}
+.job-detail[data-track="LLM"] .tag{background:var(--llm-soft);color:#6d28d9}
+.job-detail[data-track="PA"] .tag{background:var(--pa-soft);color:#c2410c}
+.job-detail[data-track="NONE"] .tag{background:var(--none-soft);color:#475569}
 .original-link{display:inline-flex;margin-top:16px;padding:9px 12px;border-radius:9px;background:var(--primary);color:#fff;text-decoration:none;font-size:13px;font-weight:800}
 .tooltip{position:fixed;z-index:1000;max-width:280px;padding:7px 9px;pointer-events:none;border-radius:8px;background:#172033;color:#fff;font-size:12px;line-height:1.4;box-shadow:0 6px 18px rgba(23,32,51,.14)}
 .error-box{padding:14px;border:1px solid #ffd8a8;border-radius:10px;background:#fff4e6;color:#8a4b08;font-size:13px;line-height:1.6}

@@ -36,6 +36,12 @@ def get_jobs_for_skill(skill_code: str, days: int) -> list[dict]:
             collected_at=_to_text_datetime(row.get("collected_at")),
             captured_at=_to_text_datetime(row.get("captured_at")),
             matched_skills=row.get("matched_skills") or "",
+            ax_score=row.get("ax_score"),
+            ds_score=row.get("ds_score"),
+            llm_score=row.get("llm_score"),
+            pa_score=row.get("pa_score"),
+            top1_track=row.get("top1_track"),
+            none_flag=(bool(row["none_flag"]) if row.get("none_flag") is not None else None),
         )
         result.append(item.model_dump())
 

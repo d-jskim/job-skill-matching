@@ -1,9 +1,19 @@
 from app.db import get_conn
 
 
+ACTIVE_PREDICTION_MODEL = "qwen3:4b-instruct-2507-q4_K_M"
+ACTIVE_PREDICTION_PROMPT_VERSION = "v4-curriculum-strict"
+ACTIVE_PREDICTION_INFERENCE_MODE = "single"
+
+
 def find_jobs_by_skill(skill_code: str, cutoff, limit: int = 20):
     cutoff_clause = ""
-    params = [skill_code]
+    params = [
+        ACTIVE_PREDICTION_MODEL,
+        ACTIVE_PREDICTION_PROMPT_VERSION,
+        ACTIVE_PREDICTION_INFERENCE_MODE,
+        skill_code,
+    ]
 
     if cutoff is not None:
         cutoff_clause = "AND js.captured_at >= %s"
@@ -24,7 +34,13 @@ def find_jobs_by_skill(skill_code: str, cutoff, limit: int = 20):
             DISTINCT s2.canonical_name
             ORDER BY s2.canonical_name
             SEPARATOR ', '
-        ) AS matched_skills
+        ) AS matched_skills,
+        jtp.ax_score,
+        jtp.ds_score,
+        jtp.llm_score,
+        jtp.pa_score,
+        jtp.top1_track,
+        jtp.none_flag
     FROM job_skill_mention jsm
     JOIN job_posting_section sec
       ON sec.section_id = jsm.section_id
@@ -34,6 +50,12 @@ def find_jobs_by_skill(skill_code: str, cutoff, limit: int = 20):
       ON jp.job_posting_id = js.job_posting_id
     JOIN company c
       ON c.company_code = jp.company_code
+    LEFT JOIN job_track_prediction jtp
+      ON jtp.job_posting_id = jp.job_posting_id
+     AND jtp.success = 1
+     AND jtp.model_name = %s
+     AND jtp.prompt_version = %s
+     AND jtp.inference_mode = %s
     LEFT JOIN job_posting_section sec2
       ON sec2.snapshot_id = js.snapshot_id
     LEFT JOIN job_skill_mention jsm2
@@ -50,7 +72,13 @@ def find_jobs_by_skill(skill_code: str, cutoff, limit: int = 20):
         jp.posting_url,
         jp.published_at,
         jp.collected_at,
-        js.captured_at
+        js.captured_at,
+        jtp.ax_score,
+        jtp.ds_score,
+        jtp.llm_score,
+        jtp.pa_score,
+        jtp.top1_track,
+        jtp.none_flag
     ORDER BY
         COALESCE(jp.published_at, js.captured_at, jp.collected_at) DESC
     LIMIT %s
