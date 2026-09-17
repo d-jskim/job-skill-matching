@@ -1,0 +1,105 @@
+{
+  "note": "ChatGPT가 작성한 사전 참고값이며 객관적 정답이나 확률이 아닙니다. 모델 입력에 사용하지 않습니다. 기존 PI 표기는 PA로 통일했습니다.",
+  "results": [
+    {
+      "jd_id": "JD01",
+      "reference_label": "AX",
+      "reference_scores": {
+        "AX": 95,
+        "DS": 35,
+        "LLM": 80,
+        "PA": 5
+      }
+    },
+    {
+      "jd_id": "JD02",
+      "reference_label": "AX",
+      "reference_scores": {
+        "AX": 98,
+        "DS": 55,
+        "LLM": 78,
+        "PA": 8
+      }
+    },
+    {
+      "jd_id": "JD03",
+      "reference_label": "DS",
+      "reference_scores": {
+        "AX": 35,
+        "DS": 95,
+        "LLM": 30,
+        "PA": 5
+      }
+    },
+    {
+      "jd_id": "JD04",
+      "reference_label": "DS",
+      "reference_scores": {
+        "AX": 25,
+        "DS": 92,
+        "LLM": 10,
+        "PA": 3
+      }
+    },
+    {
+      "jd_id": "JD05",
+      "reference_label": "LLM",
+      "reference_scores": {
+        "AX": 72,
+        "DS": 20,
+        "LLM": 96,
+        "PA": 15
+      }
+    },
+    {
+      "jd_id": "JD06",
+      "reference_label": "LLM",
+      "reference_scores": {
+        "AX": 55,
+        "DS": 25,
+        "LLM": 96,
+        "PA": 5
+      }
+    },
+    {
+      "jd_id": "JD07",
+      "reference_label": "PA",
+      "reference_scores": {
+        "AX": 20,
+        "DS": 15,
+        "LLM": 5,
+        "PA": 98
+      }
+    },
+    {
+      "jd_id": "JD08",
+      "reference_label": "LLM",
+      "reference_scores": {
+        "AX": 45,
+        "DS": 72,
+        "LLM": 88,
+        "PA": 3
+      }
+    },
+    {
+      "jd_id": "JD09",
+      "reference_label": "LLM",
+      "reference_scores": {
+        "AX": 60,
+        "DS": 65,
+        "LLM": 90,
+        "PA": 45
+      }
+    },
+    {
+      "jd_id": "JD10",
+      "reference_label": "NONE",
+      "reference_scores": {
+        "AX": 15,
+        "DS": 5,
+        "LLM": 5,
+        "PA": 2
+      }
+    }
+  ]
+}
